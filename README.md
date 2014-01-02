@@ -5,12 +5,14 @@ Requires [node](http://nodejs.org/) and [npm](http://npmjs.org/). You also need 
 
 Finally, you need a Wordnik API key, which you can apply for here: http://developer.wordnik.com/
 
-(You'll need to add all that info to config.js before running the program, otherwise Wordnik and Twitter won't play nice. Don't worry, it's all commented.)
+Before running the program:
 
-> npm install node-restclient@0.0.1
+1. Add all the Twitter info to twitter.js
+2. Add the Wordnik API key to wordnik.js
+3. Install the following Node modules:
+  * npm install node-restclient@0.0.1
+  * npm install twit@1.1.6
+  * npm install express@2.5.9
+4. node aportraitofthe.js
 
-> npm install twit@1.1.6
-
-> npm install express@2.5.9
-
-> node metaphor.js
+Consider running the bot in the background with [forever](https://github.com/nodejitsu/forever) or [pm2](https://github.com/Unitech/pm2).

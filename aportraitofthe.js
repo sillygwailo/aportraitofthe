@@ -1,7 +1,7 @@
 var restclient = require('node-restclient');
 var Twit = require('twit');
 
-var T = new Twit(require(__dirname + '/config.js'));
+var T = new Twit(require(__dirname + '/twitter.js'));
 
 var statement = "";
 
