@@ -1,17 +1,12 @@
-var restclient = require('node-restclient');
+var wordnikAPIkey = require(__dirname + '/wordnik_api_key.js');
+
+var Wordnik = require('wordnik');
+
 var Twit = require('twit');
 
 var T = new Twit(require(__dirname + '/twitter.js'));
 
 var statement = "";
-
-// insert your Wordnik API info below
-var wordnikAPIkey = require(__dirname + '/wordnik.js');
-var getNounsURL = "http://api.wordnik.com/v4/words.json/randomWords?" +
-                  "minCorpusCount=10000&minDictionaryCount=20&" +
-                  "excludePartOfSpeech=proper-noun,proper-noun-plural,proper-noun-posessive,suffix,family-name,idiom,affix&" +
-                  "hasDictionaryDef=true&includePartOfSpeech=noun&limit=2&maxLength=12&" +
-                  "api_key=" + wordnikAPIkey;
 
 // Capitalize the word http://stackoverflow.com/a/17752917/300278
 function capitalize(string) {
@@ -20,18 +15,29 @@ function capitalize(string) {
 
 function makePortrait() {
   statement = "";
-  restclient.get(getNounsURL,
-  function(data) {
 
-    statement += "A Portrait of the " + capitalize(data[0].word) + " as a Young " + capitalize(data[1].word);
+  var w = new Wordnik({
+    api_key: wordnikAPIkey
+  });
 
-    console.log(statement);
+  var randomOptions = {
+    minDictionaryCount: 20,
+    includePartOfSpeech: 'noun',
+    excludePartOfSpeech: "proper-noun,proper-noun-plural,proper-noun-posessive,suffix,family-name,idiom,affix",
+    hasDictionaryDef: true,
+    maxLength: 12,
+    minCorpusCount: 10000,
+    limit: '2',
+  }
+
+  console.log(statement);
+  w.randomWords(randomOptions, function(err, words) {
+    statement = "A Portrait of the " + capitalize(words[0].word) + " As a Young " + capitalize(words[1].word);
     T.post('statuses/update', { status: statement}, function(err, reply) {
       console.log("error: " + err);
       console.log("reply: " + reply);
     });
-  }
-  ,"json");
+  });
 }
 
 function favRTs () {
