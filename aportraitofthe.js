@@ -59,7 +59,7 @@ setInterval(function() {
  catch (e) {
     console.log(e);
   }
-},3600000);
+}, 2700000 + Math.floor(Math.random() * 1800000));
 
 // every 5 hours, check for people who have RTed a portrait, and favorite that portrait
 setInterval(function() {
